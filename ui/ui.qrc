@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="wizard">
+    <file>boton.png</file>
+    <file>inicio-640.png</file>
+    <file>superfondo-640.png</file>
+  </qresource>
+  <qresource prefix="general">
+    <file>mixcloud-logo.png</file>
+    <file>JuraBook.ttf</file>
+    <file>GuntherLogo.png</file>
+    <file>gunther icono.png</file>
+  </qresource>
+</RCC>

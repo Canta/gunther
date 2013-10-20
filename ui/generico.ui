@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GroupBox</class>
+ <widget class="QGroupBox" name="GroupBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>270</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>270</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>270</width>
+    <height>420</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Jura</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>GroupBox</string>
+  </property>
+  <property name="title">
+   <string>Output Generico</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
