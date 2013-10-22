@@ -5,13 +5,15 @@ import git
 import os
 import sys, getopt
 
-repo = git.Repo(".")
 #chequeo si el directorio actual es un checkout del repo
+repo = None
 info = None
 try:
+    repo = git.Repo(".")
     info = repo.git.status("--porcelain")
 except Exception as e:
-    git.Repo.clone_from("https://github.com/Canta/gunther", ".")
+    g = git.cmd.Git(".")
+    g.clone("https://github.com/Canta/gunther", ".")
     repo = git.Repo(".")
     info = repo.git.status("--porcelain")
 
