@@ -12,10 +12,14 @@ try:
     repo = git.Repo(".")
     info = repo.git.status("--porcelain")
 except Exception as e:
-    g = git.cmd.Git(".")
-    g.clone("https://github.com/Canta/gunther", ".")
-    repo = git.Repo(".")
-    info = repo.git.status("--porcelain")
+    #g = git.cmd.Git(".")
+    #g.clone("https://github.com/Canta/gunther", ".")
+    #repo = git.Repo(".")
+    #info = repo.git.status("--porcelain")
+    print("Este directorio no está vinculado al repositorio de Günther.")
+    print("Debe ejecutar nuevamente la instalación de Günther.")
+    print("Imposible continuar.")
+    exit(1);
 
 #Borro cualquier cambio
 repo.git.reset("--hard","HEAD")
