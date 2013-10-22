@@ -44,19 +44,19 @@ def GetModels(url , method = 'get', data = ''):
     r = [Model(i) for i in j]
     return r
 
-def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioCEFyL Streaming', id_servidor = 0, id_formato_stream = 2):
+def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioFyL Streaming', id_servidor = 0, id_formato_stream = 2):
     #a = 'url=http://giss.tv:8000/radiocefyl1.ogg&id_formato_stream=2&descripcion=testing&id_servidor=1'
     #a = 'url='+url+'&id_formato_stream='+str(id_formato_stream)+'&descripcion='+descripcion+'&id_servidor='+str(id_servidor)+"&nombre="+nombre
     data = {"url":url,"nombre":nombre,"descripcion":descripcion, "id_formato_stream":str(id_formato_stream), "id_servidor":str(id_servidor)}
     a = urllib.urlencode(data)
-    #print 'http://www.radiocefyl.com.ar/aapi/add_transmision.php?'+a
-    b = GetJson('http://www.radiocefyl.com.ar/aapi/add_transmision.php?'+a, 'get')
+    #print 'http://www.radiofyl.com.ar/api/add_transmision.php?'+a
+    b = GetJson('http://www.radiofyl.com.ar/api/add_transmision.api.php?'+a, 'get')
     return b
 
 def FinalizeTransmision(jash):
     # c = 'hash='+str(b["data"]["hash"])
     c = 'hash='+jash
-    d = GetJson('http://www.radiocefyl.com.ar/aapi/finalize_transmision.php?'+c, 'get')
+    d = GetJson('http://www.radiofyl.com.ar/api/finalize_transmision.api.php?'+c, 'get')
     return d
 
 def GetServersFromWeb(url):
@@ -64,7 +64,7 @@ def GetServersFromWeb(url):
     #De ese modo, dada esa URL, se accede al api.
     if not url.endswith("/"):
         url = url + "/"
-    url = url + "aapi/get_servidores_disponibles.php"
+    url = url + "api/get_servidores_disponibles.api.php"
     servidores = []
     try:
         servidores = GetModels(url)

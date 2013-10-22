@@ -114,7 +114,7 @@ class GuntherUploader(QtGui.QMainWindow):
 
 if __name__ == "__main__":
     nombre = u"Günther Cloudcast"
-    desc   = u"Transmisión de RadioCEFyL grabada con Günther."
+    desc   = u"Transmisión de RadioFyL grabada con Günther."
     archivo = None
     try:                                
         opts, args = getopt.getopt(sys.argv[1:], "a:n:d:", ["archivo=","nombre=", "descripcion="])

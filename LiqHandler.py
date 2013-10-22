@@ -401,7 +401,7 @@ class Broadcast(Output):
         self.__metadataUpdater = UrlGetter(self.GetURL(),self)
         #print([nombre, host, password, username, puerto, mount, formato])
         #tmpCodigo = self.ClearString(str(self.GetNombre()))+" = server.rms(id=\"vm"+self.ClearString(str(self.GetNombre()))+"\", mixer)\n"
-        tmpCodigo = self.ClearString(str(self.GetNombre()))+" = output.icecast(id=\""+self.ClearString(str(self.GetNombre()))+"\", mount=\""+self.__mount+"\", description=\"Gunther radio!\", url=\"http://www.radiocefyl.com.ar\", fallible=true, host=\""+self.__host+"\", port="+self.__port+",user=\""+self.__user+"\", password=\""+self.__pass+"\", "+self.__formato+", mean(mixer))\n"
+        tmpCodigo = self.ClearString(str(self.GetNombre()))+" = output.icecast(id=\""+self.ClearString(str(self.GetNombre()))+"\", mount=\""+self.__mount+"\", description=\"Gunther radio!\", url=\"http://www.radiofyl.com.ar\", fallible=true, host=\""+self.__host+"\", port="+self.__port+",user=\""+self.__user+"\", password=\""+self.__pass+"\", "+self.__formato+", mean(mixer))\n"
         self.SetCodigo(tmpCodigo)
     def GetHost(self):
         return self.__host
