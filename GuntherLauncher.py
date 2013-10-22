@@ -9,17 +9,17 @@ repo = git.Repo(".")
 #chequeo si el directorio actual es un checkout del repo
 info = None
 try:
-    info = repo.status("--porcelain")
+    info = repo.git.status("--porcelain")
 except Exception as e:
     git.Repo.clone_from("https://github.com/Canta/gunther", ".")
     repo = git.Repo(".")
-    info = repo.status("--porcelain")
+    info = repo.git.status("--porcelain")
 
 #Borro cualquier cambio
-svnclient.revert(".")
+repo.git.reset("--hard","HEAD")
 
 #Actualizo la versión
-svnclient.update(".")
+repo.git.pull()
 
 #Y ahora lanzo Günther
 try:                                
