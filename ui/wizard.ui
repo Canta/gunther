@@ -2426,7 +2426,7 @@ Se pueden seleccionar múltiples outputs para una sola transmisión, y cada tipo
      </font>
     </property>
     <property name="text">
-     <string>http://www.radiocefyl.com.ar/</string>
+     <string>http://www.radiofyl.com.ar/</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
