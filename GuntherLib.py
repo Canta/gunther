@@ -45,22 +45,27 @@ def GetModels(url , method = 'get', data = ''):
     r = [Model(i) for i in j]
     return r
 
+def ParseModels(arr):
+    r = [Model(i) for i in arr]
+    return r
+
 def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioFyL Streaming', id_servidor = 0, id_formato_stream = 2, host="http://www.radiofyl.com.ar/"):
     #a = 'url=http://giss.tv:8000/radiocefyl1.ogg&id_formato_stream=2&descripcion=testing&id_servidor=1'
     #a = 'url='+url+'&id_formato_stream='+str(id_formato_stream)+'&descripcion='+descripcion+'&id_servidor='+str(id_servidor)+"&nombre="+nombre
     data = {"url":url,"nombre":nombre,"descripcion":descripcion, "id_formato_stream":str(id_formato_stream), "id_servidor":str(id_servidor)}
     a = urllib.urlencode(data)
     #print 'http://www.radiofyl.com.ar/api/add_transmision.php?'+a
-    b = GetJson(host+'api/add_transmision.api.php?'+a, 'get')
+    b = GetJson(host+'api/index.php?'+a, 'get')
+    
     return b
 
 def FinalizeTransmision(jash, url="http://www.radiofyl.com.ar/"):
     # c = 'hash='+str(b["data"]["hash"])
     c = 'hash='+jash
-    d = GetJson(url+'api/finalize_transmision.api.php?'+c, 'get')
+    d = GetJson(url+'api/index.php?'+c, 'get')
     return d
 
-def GetServersFromWeb(url):
+def GetServersFromWeb(url="http://www.radiofyl.com.ar/"):
     #URL se supone que sea una dirección con la aplicación montada.
     #De ese modo, dada esa URL, se accede al api.
     if not url.endswith("/"):
@@ -72,6 +77,8 @@ def GetServersFromWeb(url):
     if r.success:
         for s in r.data["servidores"]:
             servidores.append(s)
+    else:
+        print "GetServersFromWeb: " + r.data["message"]
     #except Exception as e:
         #print e.args
         #self.mostrar_error("El origen de datos no es válido :(")
@@ -129,7 +136,7 @@ class API(object):
 
     def Call(self, success=None, fail=None):
         import simplejson
-        #print self.endpoint
+        #print "endpoint:" + self.endpoint
         try:
             #resp = GetURL(self.endpoint,"post",urllib.urlencode(self.data))
             #print "resp:"
@@ -142,7 +149,8 @@ class API(object):
             #print json
             self.response = APIResponse.Parse(GetJson(self.endpoint,"post",urllib.urlencode(self.data)))
         except Exception as e:
-            #print e
+            print "API.Call:"
+            print e
             pass
         for item in self.response.data:
             try:
