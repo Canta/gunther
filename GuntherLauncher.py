@@ -1,9 +1,11 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import git
 import os
 import sys, getopt
+if "win" in sys.platform:
+    os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = os.environ.get("PROGRAMFILES")+"\\Git\\bin\\git.exe"
+import git
 
 #chequeo si el directorio actual es un checkout del repo
 repo = None
@@ -12,6 +14,7 @@ try:
     repo = git.Repo(".")
     info = repo.git.status("--porcelain")
 except Exception as e:
+    print(e)
     #g = git.cmd.Git(".")
     #g.clone("https://github.com/Canta/gunther", ".")
     #repo = git.Repo(".")
