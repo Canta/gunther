@@ -702,15 +702,18 @@ class LiqHandler(MetaObject):
                 print "Cargando servidores desde la web..."
                 servers = GuntherLib.GetServersFromWeb(out.get("url"))
                 print "...servidores cargados."
-                servidor = servers[0]
-                tmp = urlparse(servidor.get("url"))
-                url = str(tmp.hostname)
-                puerto = str(tmp.port)
-                formato = "ogg"
-                usuario = servidor.get("user_transmision")
-                password = servidor.get("pass_transmision")
-                mount = servidor.get("mount_point")
-                tmp_output = Broadcast(servidor.get("nombre"), url, password, usuario, puerto, mount, formato, tmpref)
+                if len(servidores) > 0:
+                    servidor = servers[0]
+                    tmp = urlparse(servidor["URL"])
+                    url = str(tmp.hostname)
+                    puerto = str(tmp.port)
+                    formato = servidor["FORMATO_STREAM"]["CODEC"]
+                    usuario = servidor["USER_TRANSMISION"]
+                    password = servidor["PASS_TRANSMISION"]
+                    mount = servidor["MOUNT_POINT"]
+                    tmp_output = Broadcast(servidor["NOMBRE"], url, password, usuario, puerto, mount, formato, tmpref)
+                else:
+                    print "ERROR: ¡No hay servidores disponibles en la web! X("
             
             
             #ARCHIVO
