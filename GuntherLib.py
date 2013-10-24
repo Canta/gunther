@@ -5,6 +5,7 @@ from cStringIO import StringIO
 class Model(object):
     def __init__(self, obj):
         self.__obj = obj
+        self.datos = obj["datos"]
     
     def get(self, campo):
         try:
@@ -44,19 +45,19 @@ def GetModels(url , method = 'get', data = ''):
     r = [Model(i) for i in j]
     return r
 
-def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioFyL Streaming', id_servidor = 0, id_formato_stream = 2):
+def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioFyL Streaming', id_servidor = 0, id_formato_stream = 2, host="http://www.radiofyl.com.ar/"):
     #a = 'url=http://giss.tv:8000/radiocefyl1.ogg&id_formato_stream=2&descripcion=testing&id_servidor=1'
     #a = 'url='+url+'&id_formato_stream='+str(id_formato_stream)+'&descripcion='+descripcion+'&id_servidor='+str(id_servidor)+"&nombre="+nombre
     data = {"url":url,"nombre":nombre,"descripcion":descripcion, "id_formato_stream":str(id_formato_stream), "id_servidor":str(id_servidor)}
     a = urllib.urlencode(data)
     #print 'http://www.radiofyl.com.ar/api/add_transmision.php?'+a
-    b = GetJson('http://www.radiofyl.com.ar/api/add_transmision.api.php?'+a, 'get')
+    b = GetJson(host+'api/add_transmision.api.php?'+a, 'get')
     return b
 
-def FinalizeTransmision(jash):
+def FinalizeTransmision(jash, url="http://www.radiofyl.com.ar/"):
     # c = 'hash='+str(b["data"]["hash"])
     c = 'hash='+jash
-    d = GetJson('http://www.radiofyl.com.ar/api/finalize_transmision.api.php?'+c, 'get')
+    d = GetJson(url+'api/finalize_transmision.api.php?'+c, 'get')
     return d
 
 def GetServersFromWeb(url):
@@ -64,14 +65,17 @@ def GetServersFromWeb(url):
     #De ese modo, dada esa URL, se accede al api.
     if not url.endswith("/"):
         url = url + "/"
-    url = url + "api/get_servidores_disponibles.api.php"
+    url = url + "api/index.php"
     servidores = []
-    try:
-        servidores = GetModels(url)
-    except Exception as e:
+    #try:
+    r = API({"verb":"get_servidores_disponibles"},url).Call()
+    if r.success:
+        for s in r.data["servidores"]:
+            servidores.append(s)
+    #except Exception as e:
         #print e.args
         #self.mostrar_error("El origen de datos no es válido :(")
-        raise e
+        #raise e
     return servidores
 
 
@@ -92,5 +96,58 @@ def ParseIcecastMetadata(meta, mountpoint):
             p = prop.split("</tr>")
             p = p[0].replace("<td>","").replace("</td>","").split("<td class=\"streamdata\">")
             ret.append(p)
+    return ret
+
+class APIResponse(object):
+    def __init__(self, success=True, message="Operation finished"):
+        self.success = (success == True)
+        self.data = {"message":message}
+
+    def Fail(message = "Operation failed."):
+        return APIResponse(False, message)
+    Fail = staticmethod(Fail)
     
-    return ret    
+    def Parse(json = {}):
+        ar = None
+        try:
+            ar = APIResponse(json["success"])
+            ar.data = json["data"]
+        except:
+            ar = APIResponse.Fail("APIResponse.Parse: invalid json object")
+        return ar
+    Parse = staticmethod(Parse)
+
+class API(object):
+    def __init__(self,data={}, endpoint = "http://localhost/api/"):
+        try:
+            data["verb"] = data["verb"]
+        except:
+            raise(Exception("API Class: a verb is required in the data dict."))
+        self.response = APIResponse.Fail("Operation not executed")
+        self.data = data
+        self.endpoint = endpoint
+
+    def Call(self, success=None, fail=None):
+        import simplejson
+        #print self.endpoint
+        try:
+            #resp = GetURL(self.endpoint,"post",urllib.urlencode(self.data))
+            #print "resp:"
+            #print resp
+            #resp = resp.read()
+            #print "resp string:"
+            #print resp
+            #json = simplejson.loads(resp)
+            #print "json:"
+            #print json
+            self.response = APIResponse.Parse(GetJson(self.endpoint,"post",urllib.urlencode(self.data)))
+        except Exception as e:
+            #print e
+            pass
+        for item in self.response.data:
+            try:
+                self.response.data[item] = simplejson.loads(self.response.data[item])
+            except Exception as e:
+                pass
+        return self.response
+
