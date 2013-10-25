@@ -363,7 +363,8 @@ class GuntherWizard(QtGui.QWizard):
             outputs.addChild(tmp_output)
         
         self.TreeResumenConfiguraciones.addTopLevelItems([inputs,outputs])
-        
+        self.TextNombreTransmision.setText(self.xml.xpath("//data/nombre")[0].text)
+        self.TextDescripcionTransmision.setText(self.xml.xpath("//data/descripcion")[0].text)
     
     def TestAudioInput(self):
         THRESHOLD = 500
