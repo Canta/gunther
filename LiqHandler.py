@@ -396,9 +396,11 @@ class Broadcast(Output):
         self.__pass = unicode(password)
         self.__mount = unicode(mount)
         self.__formato = self.FixFormato(formato)
+        self.__formato_raw = formato
         self.__hash = ""
         self.__metadata = ""
         self.__metadataUpdater = UrlGetter(self.GetURL(),self)
+        self.servidor = {"ID":0}
         #print([nombre, host, password, username, puerto, mount, formato])
         #tmpCodigo = self.ClearString(str(self.GetNombre()))+" = server.rms(id=\"vm"+self.ClearString(str(self.GetNombre()))+"\", mixer)\n"
         tmpCodigo = self.ClearString(str(self.GetNombre()))+" = output.icecast(id=\""+self.ClearString(str(self.GetNombre()))+"\", mount=\""+self.__mount+"\", description=\"Gunther radio!\", url=\"http://www.radiofyl.com.ar\", fallible=true, host=\""+self.__host+"\", port="+self.__port+",user=\""+self.__user+"\", password=\""+self.__pass+"\", "+self.__formato+", mean(mixer))\n"
@@ -429,9 +431,9 @@ class Broadcast(Output):
         handler.debug("data: "+str(len(url)) + " campos.")
         #print data
         try:
-            tmp = GuntherLib.AddTransmision(url, data["nombre"], data["descripcion"])
+            tmp = GuntherLib.AddTransmision(url, data["nombre"], data["descripcion"],self.servidor["ID"],self.__formato_raw)
             #self.debug("obtenido:" + tmp)
-            self.__hash = str(tmp["data"]["hash"])
+            self.__hash = str(tmp["hash"])
             #self.debug("hash:" + self.__hash)
         except Exception as e:
             handler.debug('Error al intentar registrar online la transmision:')
@@ -712,6 +714,7 @@ class LiqHandler(MetaObject):
                     password = servidor["PASS_TRANSMISION"]
                     mount = servidor["MOUNT_POINT"]
                     tmp_output = Broadcast(servidor["NOMBRE"], url, password, usuario, puerto, mount, formato, tmpref)
+                    tmp_output.servidor = servidor
                 else:
                     print "ERROR: ¡No hay servidores disponibles en la web! X("
             
