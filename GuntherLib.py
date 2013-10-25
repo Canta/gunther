@@ -49,28 +49,39 @@ def ParseModels(arr):
     r = [Model(i) for i in arr]
     return r
 
+def PrepareURLForAPI(url):
+    if not url.endswith("/"):
+        url = url + "/"
+    if not "api/index.php" in url:
+        url = url + "api/index.php"
+    return url
+
 def AddTransmision(url, nombre='Günther Stream', descripcion = 'RadioFyL Streaming', id_servidor = 0, id_formato_stream = 2, host="http://www.radiofyl.com.ar/"):
     #a = 'url=http://giss.tv:8000/radiocefyl1.ogg&id_formato_stream=2&descripcion=testing&id_servidor=1'
     #a = 'url='+url+'&id_formato_stream='+str(id_formato_stream)+'&descripcion='+descripcion+'&id_servidor='+str(id_servidor)+"&nombre="+nombre
-    data = {"url":url,"nombre":nombre,"descripcion":descripcion, "id_formato_stream":str(id_formato_stream), "id_servidor":str(id_servidor)}
+    data = {"verb":"add_transmision","url":url,"nombre":nombre,"descripcion":descripcion, "id_formato_stream":str(id_formato_stream), "id_servidor":str(id_servidor)}
     a = urllib.urlencode(data)
     #print 'http://www.radiofyl.com.ar/api/add_transmision.php?'+a
-    b = GetJson(host+'api/index.php?'+a, 'get')
-    
-    return b
+    #b = GetJson(host+'api/index.php?'+a, 'get')
+    host = PrepareURLForAPI(host)
+    b = API(data, host).Call()
+    if b.success:
+        return b.data
+    else:
+        return {"hash":""}
 
 def FinalizeTransmision(jash, url="http://www.radiofyl.com.ar/"):
     # c = 'hash='+str(b["data"]["hash"])
-    c = 'hash='+jash
-    d = GetJson(url+'api/index.php?'+c, 'get')
+    url = PrepareURLForAPI(url)
+    c = {'hash':jash,"verb":"finalize_transmision"}
+    #d = GetJson(url+'api/index.php?'+c, 'get')
+    d = API(c, url).Call()
     return d
 
 def GetServersFromWeb(url="http://www.radiofyl.com.ar/"):
     #URL se supone que sea una dirección con la aplicación montada.
     #De ese modo, dada esa URL, se accede al api.
-    if not url.endswith("/"):
-        url = url + "/"
-    url = url + "api/index.php"
+    url = PrepareURLForAPI(url)
     servidores = []
     #try:
     r = API({"verb":"get_servidores_disponibles"},url).Call()
