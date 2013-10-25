@@ -704,7 +704,7 @@ class LiqHandler(MetaObject):
                 print "Cargando servidores desde la web..."
                 servers = GuntherLib.GetServersFromWeb(out.get("url"))
                 print "...servidores cargados."
-                if len(servidores) > 0:
+                if len(servers) > 0:
                     servidor = servers[0]
                     tmp = urlparse(servidor["URL"])
                     url = str(tmp.hostname)
