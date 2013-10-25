@@ -41,6 +41,9 @@ class GuntherWizard(QtGui.QWizard):
         painter.drawRect(0,0,640,480)
         painter.end()
     
+    def reject(self):
+        exit(0)
+    
     def nextId(self):
         id = self.currentId()
         self.GenerarXML()
