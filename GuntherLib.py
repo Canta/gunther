@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import httplib, urllib, urlparse, json, urllib2, os, sys
+import httplib, urllib, urlparse, json, urllib2, os, sys, ctypes
 from cStringIO import StringIO
 
 class Model(object):
