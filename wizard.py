@@ -130,6 +130,9 @@ class GuntherWizard(QtGui.QWizard):
         QtCore.QObject.connect(self.RadioButtonConfigurarManualmente, QtCore.SIGNAL("clicked()"), self.ToggleOpcionTransmitir)
         QtCore.QObject.connect(self.ButtonBrowseDir, QtCore.SIGNAL("clicked()"), self.SeleccionarDondeGuardar)
         QtCore.QObject.connect(self.ButtonGuardarArchivo, QtCore.SIGNAL("clicked()"), self.SaveArchivo)
+        
+        self.TextPathGrabarArchivo.setText(GuntherLib.GetMyDocuments());
+        
         QtCore.QMetaObject.connectSlotsByName(self)
     
     def LoadArchivo(self):
