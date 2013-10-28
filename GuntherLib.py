@@ -13,6 +13,15 @@ class Model(object):
         except Exception as e:
             return ""
 
+def GetMyDocuments():
+    if "win" in sys.platform:
+        dll = ctypes.windll.shell32
+        buf = ctypes.create_string_buffer(300)
+        dll.SHGetSpecialFolderPathA(None, buf, 0x0005, False)
+        return buf.value
+    else:
+        return os.path.expanduser("~")
+
 def GetJson(url, method = 'get', data = '', headers = {}):
     resp = GetURL(url, method, data, headers)    
     return json.load(resp)
