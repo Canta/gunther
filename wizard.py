@@ -131,7 +131,7 @@ class GuntherWizard(QtGui.QWizard):
         QtCore.QObject.connect(self.ButtonBrowseDir, QtCore.SIGNAL("clicked()"), self.SeleccionarDondeGuardar)
         QtCore.QObject.connect(self.ButtonGuardarArchivo, QtCore.SIGNAL("clicked()"), self.SaveArchivo)
         
-        self.TextPathGrabarArchivo.setText(GuntherLib.GetMyDocuments());
+        self.TextPathGrabarArchivo.setText(GuntherLib.GetMyDocuments() + os.sep);
         
         QtCore.QMetaObject.connectSlotsByName(self)
     
@@ -221,8 +221,9 @@ class GuntherWizard(QtGui.QWizard):
         
     
     def SeleccionarDondeGuardar(self):
-        directorio = str(QtGui.QFileDialog.getExistingDirectory(None, "Select Directory"))
-        self.TextPathGrabarArchivo.setText(directorio)
+        directorio = str(QtGui.QFileDialog.getExistingDirectory(None, "Select Directory",self.TextPathGrabarArchivo.text()))
+        if directorio != "":
+            self.TextPathGrabarArchivo.setText(directorio)
     
     def GenerarXML(self):
         #Genera un XML de uso interno, que persiste en el wizard.
