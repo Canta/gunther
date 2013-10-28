@@ -51,7 +51,7 @@ class GuntherUploader(QtGui.QMainWindow):
     def __init__(self, parent = None):
         super(GuntherUploader,self).__init__(parent)
         self.ui = uic.loadUi("ui/uploader.ui",self)
-        self.__url  = "https://api.mixcloud.com/upload/?access_token=97tHhxq78dH5APcpQHHx9Et3tNypqDXW"
+        self.__url  = "https://api.mixcloud.com/upload/?access_token=3yxUzuBvh2Mf3SgMmunnDruDruPTbfFp"
     
     def SetNombrePodcast(self, n = u""):
         self.textPodcastName.setText(n)
