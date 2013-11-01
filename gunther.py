@@ -207,6 +207,10 @@ if __name__ == "__main__":
         xml = etree.tostring(W.xml)
     #instancio un Günther
     Gunther = GuntherWindow()
+    d = app.desktop()
+    x = d.screen().width() / 2 - Gunther.width() / 2
+    y = d.screen().height() / 2 - Gunther.height() / 2
+    Gunther.move(x,y)
     Gunther.handler = LiqHandler.LiqHandler(_debug)
     Gunther.handler.LoadXML(xml)
     Gunther.handler.EjecutarServer()
