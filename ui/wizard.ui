@@ -1545,6 +1545,9 @@ En esta página del asistente podés chequear que el dispositivo de entrada de l
       <height>261</height>
      </rect>
     </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
     <property name="value">
      <number>0</number>
     </property>

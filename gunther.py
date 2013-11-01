@@ -6,7 +6,7 @@ import sys, getopt
 import LiqHandler
 from array import array
 from struct import unpack, pack
-import pyaudio
+import pyaudio, struct, math
 import wave
 import os, time, datetime
 import httplib, urllib, json
